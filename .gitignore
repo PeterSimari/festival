@@ -62,4 +62,4 @@ fastlane/screenshots/**/*.png
 fastlane/test_output
 
 # festival specific 
-secrets.xcconfig
+festival/festival/Foundation/Config/secrets.xcconfig

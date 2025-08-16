@@ -18,9 +18,9 @@ struct ContentView: View {
             Tab("", systemImage: "magnifyingglass", value: 1) {
                 
             }
-            Tab("", systemImage: "plus.diamond", value: 2) {
-                
-            }
+//            Tab("", systemImage: "plus.diamond", value: 2) {
+//                
+//            }
             Tab("", systemImage: "headphones", value: 3) {
                 
             }
