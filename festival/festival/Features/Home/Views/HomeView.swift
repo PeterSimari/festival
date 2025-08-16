@@ -9,15 +9,13 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading) {
-                    Text("Content")
-                }
-                .frame(maxWidth: .infinity)
+        ScrollView {
+            VStack(alignment: .leading) {
+                Text("Content")
             }
-            .navigationTitle(Text("Festival"))
-            .navigationBarTitleDisplayMode(.inline)
+            .frame(maxWidth: .infinity)
         }
+        .navigationTitle(Text("Festival"))
+        .navigationBarTitleDisplayMode(.inline)
     }
 }

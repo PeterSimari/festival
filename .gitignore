@@ -63,3 +63,5 @@ fastlane/test_output
 
 # festival specific 
 festival/festival/Foundation/Config/secrets.xcconfig
+festival/.DS_Store
+.DS_Store
