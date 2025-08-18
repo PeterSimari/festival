@@ -8,8 +8,8 @@
 import Foundation
 
 public class NetworkCall {
-    static func makeURLRequest(endpoint: Endpoint) -> URLRequest? {
-        guard let url: URL = URL(string: "\("milk")/") else { return nil }
+    static func makeURLRequest(endpoint: Endpoint, query: String = "") -> URLRequest? {
+        guard let url: URL = URL(string: "https://api.spotify.com/v1/\(endpoint.rawValue)\(query)") else { return nil }
         
         var request: URLRequest = URLRequest(url: url)
         
@@ -18,23 +18,10 @@ public class NetworkCall {
         if endpoint.httpMethod == .get {
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         }
+        /// Probably want to reference the project name here later.
         request.setValue("PeterSimari festival iOS App", forHTTPHeaderField: "User-Agent")
+        request.setValue("Bearer \("need to generate token")", forHTTPHeaderField: "Authorization")
         
         return request
-    }
-}
-
-enum HttpMethod: String {
-    case get, post
-}
-
-public enum Endpoint: String {
-    case search = ""
-    
-    var httpMethod: HttpMethod {
-        switch self {
-        case .search:
-            return .get
-        }
     }
 }
