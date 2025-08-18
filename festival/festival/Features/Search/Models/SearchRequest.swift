@@ -7,6 +7,7 @@
 
 import Foundation
 
+// https://developer.spotify.com/documentation/web-api/reference/search
 struct SearchRequest: Codable {
     let query: String
     let type: [String]

@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: Search
-
+// https://developer.spotify.com/documentation/web-api/reference/search
 struct SearchResponse: Codable {
     let tracks: Tracks?
     let artists: Artists?
