@@ -7,7 +7,7 @@
 
 
 public enum Endpoint: String {
-    case search = "search?q="
+    case search = "search"
     
     var httpMethod: HttpMethod {
         switch self {

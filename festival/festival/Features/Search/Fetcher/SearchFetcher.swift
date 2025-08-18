@@ -13,42 +13,44 @@ struct SearchFetcher: SearchFetching {
             throw NetworkError.invalidURL
         }
         
-        var searchResponse: SearchResponse?
-        var searchError: Error?
+        let (data, _) = try await URLSession.shared.data(for: urlRequest)
         
-        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-            guard let data = data, error == nil else {
-                searchError = NetworkError.requestFailed(error: error?.localizedDescription ?? "")
-                return
-            }
-            do {
-                searchResponse = try JSONDecoder().decode(SearchResponse.self, from: data)
-            } catch {
-                searchError = NetworkError.decodingFailed(error: error.localizedDescription)
-                return
-            }
+        do {
+            let searchResponse = try JSONDecoder().decode(SearchResponse.self, from: data)
+            return searchResponse
+        } catch {
+            throw NetworkError.decodingFailed(error: error.localizedDescription)
         }
-        
-        // Test to see if this ever gets triggered?
-        // Does return in the above function spit out of the URLSession, or does it jump out of the whole function itself, skipping this?
-        // Find out whenever i get the auth token stuff to work
-        if let searchError = searchError { throw searchError }
-        
-        return searchResponse
     }
     
+    func createSearchRequest(with: String,
+                             type: [String],
+                             market: String? = nil,
+                             limit: Int? = nil,
+                             includeExternal: String? = nil) -> SearchRequest {
+        return SearchRequest(query: with,
+                             type: type,
+                             market: market,
+                             limit: limit,
+                             includeExternal: includeExternal)
+    }
+    
+    /// Test this function to make sure it generates the right URL
+    /// And instead of creating the URL like this... why dont we acutally figure out how to use a URLComponents + URL to make a proper URL request
     private func generateQuery(with request: SearchRequest) -> String {
-        var query: String = "?q="
+        var components = URLComponents()
+        components.queryItems = [
+            URLQueryItem(name: "q", value: request.query),
+            URLQueryItem(name: "type", value: request.type.joined(separator: ","))
+        ]
         
-        query.append(request.query)
-        query.append("&\(request.type.joined(separator: ","))")
         if let limit = request.limit {
-            query.append("&\(limit)")
+            components.queryItems?.append(URLQueryItem(name: "limit", value: "\(limit)"))
         }
         if let market = request.market {
-            query.append("&\(market)")
+            components.queryItems?.append(URLQueryItem(name: "market", value: market))
         }
         
-        return query
+        return "?" + (components.percentEncodedQuery ?? "")
     }
 }

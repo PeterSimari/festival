@@ -7,4 +7,9 @@
 
 protocol SearchFetching {
     func search(for: SearchRequest) async throws -> SearchResponse?
+    func createSearchRequest(with: String,
+                             type: [String],
+                             market: String?,
+                             limit: Int?,
+                             includeExternal: String?) -> SearchRequest
 }
